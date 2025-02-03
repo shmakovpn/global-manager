@@ -23,15 +23,15 @@ class GlobalManager(Generic[T], metaclass=abc.ABCMeta):
         return cls._get_qualified_name().replace('.', '__')
 
     def __init__(self, value: T) -> None:
-        self._value: T = value
+        self._value: Optional[T] = value
 
     def _set_current_context(self, value: Optional[T]) -> None:
         setattr(self._thread_storage, self._get_thread_storage_name(), value)
 
     def _swap(self) -> None:
         current_context: Optional[T] = self.get_current_context()
-        current_value: T = self._value
-        self._value: Optional[T] = current_context
+        current_value: Optional[T] = self._value
+        self._value = current_context
         self._set_current_context(value=current_value)
 
     def __enter__(self):
