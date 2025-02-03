@@ -1,5 +1,10 @@
 # global-manager
 
+![Tests](https://github.com/shmakovpn/global-manager/actions/workflows/python-package.yml/badge.svg)
+[![codecov](https://codecov.io/github/shmakovpn/global-manager/graph/badge.svg?token=744XXMAKOZ)](https://codecov.io/github/shmakovpn/global-manager)
+![Mypy](https://github.com/shmakovpn/global-manager/actions/workflows/mypy.yml/badge.svg)
+
+
 Global thread context manager.
 
 ```py
