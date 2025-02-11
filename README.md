@@ -7,6 +7,14 @@
 
 Global thread context manager.
 
+## Installation 
+
+```bash
+pip install global-manager
+```
+
+## Examples
+
 ```py
 from typing import Optional
 import dataclasses
