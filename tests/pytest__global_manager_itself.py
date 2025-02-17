@@ -135,5 +135,3 @@ class TestGlobalManager:
         time.sleep(0.2)
 
         assert log  # see log if something wrong
-
-

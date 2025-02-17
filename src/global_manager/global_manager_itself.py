@@ -12,7 +12,7 @@ T = TypeVar('T')
 
 class GlobalManager(Generic[T], metaclass=abc.ABCMeta):
     """Base class for your context managers"""
-    _storage = None  # convextvars storage
+    _storage: Optional[contextvars.ContextVar] = None  # convextvars storage
 
     def __init__(self, value: T) -> None:
         self._value: Optional[T] = value
@@ -28,6 +28,7 @@ class GlobalManager(Generic[T], metaclass=abc.ABCMeta):
         return cls._get_qualified_name().replace('.', '__')
 
     def _set_current_context(self, value: Optional[T]) -> None:
+        assert self._storage is not None
         self._storage.set(value)
 
     def _swap(self) -> None:
@@ -51,4 +52,5 @@ class GlobalManager(Generic[T], metaclass=abc.ABCMeta):
 
     @classmethod
     def get_current_context(cls) -> Optional[T]:
+        assert cls._storage is not None
         return cls._storage.get()

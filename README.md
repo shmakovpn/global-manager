@@ -32,7 +32,7 @@ class UserContext:
     ip: str
     profile_id: int
 
-class UserContextManager(GlobalManager):
+class UserContextManager(GlobalManager[UserContext]):
     @classmethod
     def get_current_user_context(cls) -> Optional[UserContext]:
         """a business meaning method name is a good practice"""
@@ -55,13 +55,27 @@ def my_view(request):
         return my_func()
 ```
 
-Context in context
+Context in context.
 
 ```py
 with UserContext(uc1):
     UserContext.get_current_user_context()  # uc1 context
     
     with UserContext(uc2):
+        UserContext.get_current_user_context() # uc2 context
+
+    UserContext.get_current_user_context()  # uc1 context
+
+UserContext.get_current_user_context()  # None
+```
+
+Async notations is supported too.
+
+```py
+async with UserContext(uc1):
+    UserContext.get_current_user_context()  # uc1 context
+    
+    async with UserContext(uc2):
         UserContext.get_current_user_context() # uc2 context
 
     UserContext.get_current_user_context()  # uc1 context
