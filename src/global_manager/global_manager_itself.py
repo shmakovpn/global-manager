@@ -28,8 +28,10 @@ class GlobalManager(Generic[T], metaclass=abc.ABCMeta):
         return cls._get_qualified_name().replace('.', '__')
 
     def _set_current_context(self, value: Optional[T]) -> None:
-        assert self._storage is not None
-        self._storage.set(value)
+        if self._storage is not None:
+            self._storage.set(value)
+
+        return None
 
     def _swap(self) -> None:
         current_context: Optional[T] = self.get_current_context()
@@ -52,5 +54,7 @@ class GlobalManager(Generic[T], metaclass=abc.ABCMeta):
 
     @classmethod
     def get_current_context(cls) -> Optional[T]:
-        assert cls._storage is not None
-        return cls._storage.get()
+        if cls._storage is not None:
+            return cls._storage.get()
+
+        return None
