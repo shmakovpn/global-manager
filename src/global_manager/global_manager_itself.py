@@ -1,4 +1,5 @@
 from typing import TypeVar, Generic, Optional
+import contextvars
 import threading
 import abc
 
@@ -11,22 +12,23 @@ T = TypeVar('T')
 
 class GlobalManager(Generic[T], metaclass=abc.ABCMeta):
     """Base class for your context managers"""
+    _storage = None  # convextvars storage
 
-    _thread_storage = threading.local()
+    def __init__(self, value: T) -> None:
+        self._value: Optional[T] = value
+        if self.__class__._storage is None:
+            self.__class__._storage = contextvars.ContextVar(self.__class__._get_storage_name(), default=None)
 
     @classmethod
     def _get_qualified_name(cls) -> str:
         return f'{cls.__module__}.{cls.__qualname__}'
 
     @classmethod
-    def _get_thread_storage_name(cls) -> str:
+    def _get_storage_name(cls) -> str:
         return cls._get_qualified_name().replace('.', '__')
 
-    def __init__(self, value: T) -> None:
-        self._value: Optional[T] = value
-
     def _set_current_context(self, value: Optional[T]) -> None:
-        setattr(self._thread_storage, self._get_thread_storage_name(), value)
+        self._storage.set(value)
 
     def _swap(self) -> None:
         current_context: Optional[T] = self.get_current_context()
@@ -38,10 +40,15 @@ class GlobalManager(Generic[T], metaclass=abc.ABCMeta):
         self._swap()
         return self
 
+    async def __aenter__(self):
+        return self.__enter__()
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._swap()
 
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        self.__exit__(exc_type, exc_val, exc_tb)
+
     @classmethod
     def get_current_context(cls) -> Optional[T]:
-        result = getattr(cls._thread_storage, cls._get_thread_storage_name(), None)
-        return result
+        return cls._storage.get()
