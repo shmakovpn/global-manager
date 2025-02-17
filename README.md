@@ -3,6 +3,9 @@
 ![Tests](https://github.com/shmakovpn/global-manager/actions/workflows/python-package.yml/badge.svg)
 [![codecov](https://codecov.io/github/shmakovpn/global-manager/graph/badge.svg?token=744XXMAKOZ)](https://codecov.io/github/shmakovpn/global-manager)
 ![Mypy](https://github.com/shmakovpn/global-manager/actions/workflows/mypy.yml/badge.svg)
+[![pypi](https://img.shields.io/pypi/v/global-manager.svg)](https://pypi.python.org/pypi/global-manager)
+[![downloads](https://static.pepy.tech/badge/global-manager/month)](https://pepy.tech/project/global-manager)
+[![versions](https://img.shields.io/pypi/pyversions/global-manager.svg)](https://github.com/shmakovpn/global-manager)
 
 
 Global thread context manager.
