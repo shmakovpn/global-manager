@@ -43,6 +43,9 @@ jobs:
       run: |
         pytest --cov=global_manager --cov-report=xml
 
+    - name: Check branches
+      run: git branch -r
+
     - name: Check coverage for changed lines
       run: |
         diff-cover coverage.xml --compare-branch=main --fail-under=100
