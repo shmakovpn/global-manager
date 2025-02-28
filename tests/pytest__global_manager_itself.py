@@ -30,7 +30,6 @@ class TestGlobalManager:
         assert manager._value == 11
 
     def test__swap(self):
-        return
         log = []
 
         class OneContextThread(threading.Thread):
