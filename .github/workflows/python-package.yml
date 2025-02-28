@@ -31,6 +31,7 @@ jobs:
         python -m pip install -e .
         python -m pip install flake8 pytest
         python -m pip install pytest-cov
+        python -m pip install diff-cover
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
@@ -41,5 +42,10 @@ jobs:
     - name: Test with pytest
       run: |
         pytest --cov=global_manager --cov-report=xml
+
+    - name: Check coverage for changed lines
+      run: |
+        diff-cover coverage.xml --compare-branch=origin/main --fail-under=100
+
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5
