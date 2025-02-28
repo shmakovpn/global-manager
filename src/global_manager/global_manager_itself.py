@@ -44,13 +44,14 @@ class GlobalManager(Generic[T], metaclass=abc.ABCMeta):
         return self
 
     async def __aenter__(self):
-        return self.__enter__()
+        self._swap()
+        return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._swap()
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        self.__exit__(exc_type, exc_val, exc_tb)
+        self._swap()
 
     @classmethod
     def get_current_context(cls) -> Optional[T]:
