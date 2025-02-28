@@ -43,12 +43,17 @@ jobs:
       run: |
         pytest --cov=global_manager --cov-report=xml
 
+    - name: Checkout full repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # load all commits and branches
+
     - name: Check branches
       run: git branch -r
 
     - name: Check coverage for changed lines
       run: |
-        diff-cover coverage.xml --compare-branch='pull/1/merge' --fail-under=100
+        diff-cover coverage.xml --compare-branch='main' --fail-under=100
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5
