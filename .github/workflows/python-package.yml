@@ -45,7 +45,7 @@ jobs:
 
     - name: Check coverage for changed lines
       run: |
-        diff-cover coverage.xml --compare-branch=remotes/origin/main --fail-under=100
+        diff-cover coverage.xml --compare-branch=main --fail-under=100
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5
